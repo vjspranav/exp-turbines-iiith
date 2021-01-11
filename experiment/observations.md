@@ -1,5 +1,3 @@
-Procedure for the experiment is as follows. 
-
 Density of water = ρ = 1000 kg/m3
 Brake drum diameter = D =0 .45 m
 Rope diameter = d = 0.020m

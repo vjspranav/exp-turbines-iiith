@@ -1,1 +1,34 @@
-/* You CSS goes in here */
+.container {
+  height: 40px;
+  position: relative;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.slidecontainer {
+  width: 40%; /* Width of the outside container */
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.action-button {
+  color: white;
+  text-align: center;
+  background-color: #288ec8;
+  border-radius: 16px;
+  padding: 10px 20px;
+  border: none;
+}
+
+.action-button:hover {
+  background-color: #a9a9a9;
+}

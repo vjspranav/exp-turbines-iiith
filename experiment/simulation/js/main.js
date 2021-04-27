@@ -9,7 +9,12 @@ const arrayRemove = (arr, value) => {
   });
 };
 
-const ids = ["long", "lcontainer"];
+let rotating=true;
+let updateRotating = (boo) => {
+  rotating=boo
+}
+
+const ids = ["vertical", "horizontal"];
 
 const asyncMove = async (id, curPosition = 0, finalPosition = 1) => {
   let path = document.getElementById(id);
@@ -19,19 +24,7 @@ const asyncMove = async (id, curPosition = 0, finalPosition = 1) => {
     animation_speed = animation_speed * 0.0001;
     animation_speed = animation_speed == 0 ? 0.0001 : animation_speed;
     if (curPosition > finalPosition) break;
-    curPosition += animation_speed;
-    if (id === "left-curve") {
-      if (curPosition > 0.99 && flags[0]) {
-        asyncMove("right-curve");
-        flags[0] = false;
-      }
-    }
-    if (id === "right-curve") {
-      if (curPosition > 0.99 && flags[1]) {
-        asyncMove("rcontainer");
-        flags[1] = false;
-      }
-    }
+    curPosition += animation_speed
     path.setAttribute("offset", curPosition);
     await sleep(0.5);
   }
@@ -60,10 +53,26 @@ const animation = async () => {
       await sleep(2);
     }
   }
+  rotate();
+  const tube_ids = ["splash1", "splash2", "splash3"];
+  while(rotating){
+    let path = document.getElementById(tube_ids[0]);
+    path.setAttribute("offset", 1)
+    await sleep(0.3)
+    path.setAttribute("offset", 0)
+    path = document.getElementById(tube_ids[1]);
+    path.setAttribute("offset", 1)
+    await sleep(0.3)
+    path.setAttribute("offset", 0)
+    path = document.getElementById(tube_ids[2]);
+    path.setAttribute("offset", 1)
+    await sleep(0.3)
+    path.setAttribute("offset", 0)
+  }
 };
 
 const resetEverything = () => {
-  const tube_ids = ["left-curve", "right-curve", "rcontainer"];
+  const tube_ids = ["splash1", "splash2", "splash3"];
   tube_ids.forEach((element) => {
     let path = document.getElementById(element);
     path.setAttribute("offset", 0);
@@ -72,24 +81,30 @@ const resetEverything = () => {
     let path = document.getElementById(ele);
     path.setAttribute("offset", 0);
   });
+  updateRotating(false);
 };
 
-const chhotu = async () => {
-  var b = document.getElementById("wheel");
+const rotate = async () => {
+  let b = document.getElementById("wheel");
   for (var i = 0; i < 360; i++) {
-    console.log(i);
-    b.setAttribute("transform", `rotate(${i})`);
+    console.log(rotating)
+    //console.log(i);
+    b.setAttribute("transform", `rotate(-${i})`);
     // document.getElementById("wheel").transform = `rotate(${i})`;
-    await new Promise((r) => setTimeout(r, 100));
+    await sleep(0.5)
+    if(i > 358 && rotating)
+      i=0
+    if(!rotating)
+      break
   }
 };
 
 const startAnimation = async () => {
   resetEverything();
   document.getElementById("startbutton").disabled = true;
-  document.getElementById("resetbutton").disabled = true;
+  //document.getElementById("resetbutton").disabled = true;
+  updateRotating(true);
   await animation();
   document.getElementById("startbutton").disabled = false;
-  document.getElementById("resetbutton").disabled = false;
+  //document.getElementById("resetbutton").disabled = false;
 };
-chhotu();
